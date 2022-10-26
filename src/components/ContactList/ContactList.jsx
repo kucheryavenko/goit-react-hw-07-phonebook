@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteContact } from 'redux/operations';
-import { getContacts, getFilter } from 'redux/selectors';
+import { getVisibleContacts } from 'redux/selectors';
 import {
   List,
   Item,
@@ -9,30 +9,12 @@ import {
 } from 'components/ContactList/ContactList.styled';
 
 export const ContactList = () => {
-  const contacts = useSelector(getContacts);
-  const filter = useSelector(getFilter);
+  const visibleContacts = useSelector(getVisibleContacts);
   const dispatch = useDispatch();
 
   const handleDeleteContact = id => {
     dispatch(deleteContact(id));
   };
-
-  const getVisibleContacts = () => {
-    if (!filter) {
-      return contacts;
-    }
-    const normalizedFilter = filter.toLocaleLowerCase();
-    const visibleContacts = contacts.filter(({ name, phone }) => {
-      const normalizedName = name.toLocaleLowerCase();
-      const result =
-        normalizedName.includes(normalizedFilter) ||
-        phone.includes(normalizedFilter);
-      return result;
-    });
-    return visibleContacts;
-  };
-
-  const visibleContacts = getVisibleContacts();
 
   return (
     <List>
