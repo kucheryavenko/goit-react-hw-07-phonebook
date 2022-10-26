@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteContact } from 'redux/contactsSlice';
+import { deleteContact } from 'redux/operations';
 import { getContacts, getFilter } from 'redux/selectors';
 import {
   List,
@@ -22,11 +22,11 @@ export const ContactList = () => {
       return contacts;
     }
     const normalizedFilter = filter.toLocaleLowerCase();
-    const visibleContacts = contacts.filter(({ name, number }) => {
+    const visibleContacts = contacts.filter(({ name, phone }) => {
       const normalizedName = name.toLocaleLowerCase();
       const result =
         normalizedName.includes(normalizedFilter) ||
-        number.includes(normalizedFilter);
+        phone.includes(normalizedFilter);
       return result;
     });
     return visibleContacts;
@@ -36,10 +36,10 @@ export const ContactList = () => {
 
   return (
     <List>
-      {visibleContacts.map(({ id, name, number }) => (
+      {visibleContacts.map(({ id, name, phone }) => (
         <Item key={id}>
           <Description>
-            {name}: <span>{number}</span>
+            {name}: <span>{phone}</span>
           </Description>
           <Button type="button" onClick={() => handleDeleteContact(id)}>
             Delete

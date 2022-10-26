@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addContact } from 'redux/contactsSlice';
+import { addContact } from 'redux/operations';
 import { getContacts } from 'redux/selectors';
 import { nanoid } from 'nanoid';
 import { toast } from 'react-toastify';
@@ -14,7 +14,7 @@ import {
 
 export const ContactForm = () => {
   const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+  const [phone, setNumber] = useState('');
   const contacts = useSelector(getContacts);
   const dispatch = useDispatch();
 
@@ -36,18 +36,18 @@ export const ContactForm = () => {
   const handleSubmit = evt => {
     evt.preventDefault();
 
-    if (checkDublicate({ name, number })) {
+    if (checkDublicate({ name, phone })) {
       toast.error(`${name} is already in contacts. Please add a new contact.`);
       return;
     }
 
-    dispatch(addContact({ name, number }));
+    dispatch(addContact({ name, phone }));
     reset();
   };
 
-  const checkDublicate = ({ name, number }) => {
+  const checkDublicate = ({ name, phone }) => {
     const result = contacts.find(
-      contact => contact.name === name && contact.number === number
+      contact => contact.phone === name && contact.phone === phone
     );
     return result;
   };
@@ -76,10 +76,10 @@ export const ContactForm = () => {
         id={numberId}
         type="tel"
         name="number"
-        value={number}
+        value={phone}
         pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
         title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-        placeholder="742-98-74"
+        placeholder="742-987-4457"
         required
         onChange={handleChange}
       />

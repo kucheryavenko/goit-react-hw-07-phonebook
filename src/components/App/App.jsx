@@ -1,5 +1,5 @@
-import { useSelector } from 'react-redux';
-import { getContacts } from 'redux/selectors';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ContactForm } from 'components/ContactForm';
@@ -9,9 +9,19 @@ import { Section } from 'components/Section';
 import { Title } from 'components/Title';
 import { Container } from 'components/App/App.styled';
 import { Notification } from 'components/Notification';
+import { Loader } from 'components/Loader';
+import { getContacts, getIsLoading, getError } from 'redux/selectors';
+import { fetchContacts } from 'redux/operations';
 
 export const App = () => {
   const contacts = useSelector(getContacts);
+  const isLoading = useSelector(getIsLoading);
+  const error = useSelector(getError);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   return (
     <Container>
@@ -19,9 +29,9 @@ export const App = () => {
       <ContactForm />
       <Section title={'Contacts'}>
         <Filter />
-        {contacts.length !== 0 ? (
-          <ContactList />
-        ) : (
+        {isLoading && !error && <Loader />}
+        {contacts.length > 0 && <ContactList />}
+        {contacts.length === 0 && !isLoading && (
           <Notification message="You don't have contacts yet..." />
         )}
       </Section>
