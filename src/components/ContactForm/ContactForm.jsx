@@ -46,9 +46,12 @@ export const ContactForm = () => {
   };
 
   const checkDublicate = ({ name, phone }) => {
+    const normalizedName = name.toLowerCase();
     const result = contacts.find(
-      contact => contact.phone === name && contact.phone === phone
+      contact =>
+        contact.name.toLowerCase() === normalizedName && contact.phone === phone
     );
+
     return result;
   };
 
