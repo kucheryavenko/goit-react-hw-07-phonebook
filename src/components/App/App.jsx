@@ -10,13 +10,13 @@ import { Title } from 'components/Title';
 import { Container } from 'components/App/App.styled';
 import { Notification } from 'components/Notification';
 import { Loader } from 'components/Loader';
-import { getContacts, getIsLoading, getError } from 'redux/selectors';
+import { selectContacts, selectIsLoading, selectError } from 'redux/selectors';
 import { fetchContacts } from 'redux/operations';
 
 export const App = () => {
-  const contacts = useSelector(getContacts);
-  const isLoading = useSelector(getIsLoading);
-  const error = useSelector(getError);
+  const contacts = useSelector(selectContacts);
+  const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
   const dispatch = useDispatch();
 
   useEffect(() => {

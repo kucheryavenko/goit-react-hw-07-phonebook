@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteContact } from 'redux/operations';
-import { getVisibleContacts } from 'redux/selectors';
+import { selectVisibleContacts } from 'redux/selectors';
 import {
   List,
   Item,
@@ -9,7 +9,7 @@ import {
 } from 'components/ContactList/ContactList.styled';
 
 export const ContactList = () => {
-  const visibleContacts = useSelector(getVisibleContacts);
+  const visibleContacts = useSelector(selectVisibleContacts);
   const dispatch = useDispatch();
 
   const handleDeleteContact = id => {
